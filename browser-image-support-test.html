@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Image Format Support Test</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+        .test-container {
+            margin-bottom: 40px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .test {
+            margin-bottom: 30px;
+        }
+        .test-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        .test-description {
+            margin-bottom: 15px;
+            color: #555;
+        }
+        .result {
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        .support-yes {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .support-no {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .support-unknown {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+        .image-test {
+            width: 300px;
+            height: 200px;
+            background-color: #e9ecef;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            font-style: italic;
+        }
+        #avifImage, #webpImage {
+            max-width: 300px;
+            max-height: 200px;
+            display: none;
+        }
+        .feature-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .feature-table th, .feature-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .feature-table th {
+            background-color: #f2f2f2;
+        }
+        .feature-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        code {
+            background-color: #f8f9fa;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+            color: #e83e8c;
+        }
+        .browser-info {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Browser Image Format Support Test</h1>
+    
+    <div class="test-container">
+        <div class="test" id="avifTest">
+            <div class="test-title">AVIF Support Test</div>
+            <div class="test-description">
+                AVIF is a modern image format based on the AV1 video codec. It offers excellent compression and quality.
+            </div>
+            <div id="avifResult" class="result support-unknown">Testing...</div>
+            <div class="image-test" id="avifTestBox">
+                <img id="avifImage" src="ipl-mobile.avif" alt="AVIF test image" />
+                If an image appears here, your browser supports AVIF.
+            </div>
+        </div>
+        
+        <div class="test" id="webpTest">
+            <div class="test-title">WebP Support Test</div>
+            <div class="test-description">
+                WebP is a widely supported image format developed by Google that offers both lossy and lossless compression.
+            </div>
+            <div id="webpResult" class="result support-unknown">Testing...</div>
+            <div class="image-test" id="webpTestBox">
+                <img id="webpImage" src="ipl-mobile.webp" alt="WebP test image" />
+                If an image appears here, your browser supports WebP.
+            </div>
+        </div>
+    </div>
+    
+    <div class="test-container">
+        <h2>Format Comparison</h2>
+        <table class="feature-table">
+            <tr>
+                <th>Feature</th>
+                <th>AVIF</th>
+                <th>WebP</th>
+                <th>JPEG</th>
+                <th>PNG</th>
+            </tr>
+            <tr>
+                <td>Compression</td>
+                <td>Excellent</td>
+                <td>Very Good</td>
+                <td>Good</td>
+                <td>Fair</td>
+            </tr>
+            <tr>
+                <td>Quality</td>
+                <td>Excellent</td>
+                <td>Very Good</td>
+                <td>Good</td>
+                <td>Excellent</td>
+            </tr>
+            <tr>
+                <td>Transparency</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>No</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td>Animation</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>No</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td>Browser Support</td>
+                <td>Limited</td>
+                <td>Widespread</td>
+                <td>Universal</td>
+                <td>Universal</td>
+            </tr>
+        </table>
+    </div>
+    
+    <div class="browser-info" id="browserInfo">
+        Loading browser information...
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Test for AVIF support
+            const avifImage = new Image();
+            avifImage.onload = function() {
+                document.getElementById('avifResult').textContent = 'SUPPORTED';
+                document.getElementById('avifResult').className = 'result support-yes';
+                document.getElementById('avifImage').style.display = 'block';
+                document.getElementById('avifTestBox').style.backgroundColor = 'transparent';
+            };
+            avifImage.onerror = function() {
+                document.getElementById('avifResult').textContent = 'NOT SUPPORTED';
+                document.getElementById('avifResult').className = 'result support-no';
+            };
+            // This would typically be a real AVIF image URL
+            // Using a data URI here since we can't create a real AVIF image in this context
+            avifImage.src = 'data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADybWV0YQAAAAAAAAAoaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaWxvYwAAAABEAAABAAEAAAABAAABGgAAAB0AAAAoaWluZgAAAAAAAQAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAamlwcnAAAABLaXBjbwAAABRpc3BlAAAAAAAAAAIAAAACAAAAEHBpeGkAAAAAAwgICAAAAAxhdjFDgQ0MAAAAABNjb2xybmNseAACAAIAAYAAAAAXaXBtYQAAAAAAAAABAAEEAQKDBAAAACVtZGF0EgAKCBgANogQEAwgMg8f8D///8WfhwB8+ErK42A=';
+            
+            // Test for WebP support
+            const webpImage = new Image();
+            webpImage.onload = function() {
+                document.getElementById('webpResult').textContent = 'SUPPORTED';
+                document.getElementById('webpResult').className = 'result support-yes';
+                document.getElementById('webpImage').style.display = 'block';
+                document.getElementById('webpTestBox').style.backgroundColor = 'transparent';
+            };
+            webpImage.onerror = function() {
+                document.getElementById('webpResult').textContent = 'NOT SUPPORTED';
+                document.getElementById('webpResult').className = 'result support-no';
+            };
+            // This would typically be a real WebP image URL
+            // Using a data URI with a minimal WebP image
+            webpImage.src = 'data:image/webp;base64,UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA==';
+            
+            // Display browser information
+            const browserInfo = document.getElementById('browserInfo');
+            const userAgent = navigator.userAgent;
+            const browserDetails = {
+                name: 'Unknown',
+                version: 'Unknown',
+                engine: 'Unknown',
+                os: 'Unknown'
+            };
+            
+            // Extract browser information from user agent
+            if (userAgent.indexOf('Edge') > -1) {
+                browserDetails.name = 'Microsoft Edge (Legacy)';
+            } else if (userAgent.indexOf('Edg') > -1) {
+                browserDetails.name = 'Microsoft Edge (Chromium)';
+            } else if (userAgent.indexOf('Chrome') > -1) {
+                browserDetails.name = 'Google Chrome';
+            } else if (userAgent.indexOf('Safari') > -1 && userAgent.indexOf('Chrome') === -1) {
+                browserDetails.name = 'Safari';
+            } else if (userAgent.indexOf('Firefox') > -1) {
+                browserDetails.name = 'Mozilla Firefox';
+            } else if (userAgent.indexOf('MSIE') > -1 || userAgent.indexOf('Trident') > -1) {
+                browserDetails.name = 'Internet Explorer';
+            }
+            
+            // Display the information
+            browserInfo.innerHTML = `
+                <strong>Your Browser:</strong> ${browserDetails.name}<br>
+                <strong>User Agent:</strong> ${userAgent}<br>
+                <strong>Test Time:</strong> ${new Date().toLocaleString()}
+            `;
+        });
+    </script>
+</body>
+</html>
